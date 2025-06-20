@@ -150,9 +150,9 @@ import {
   createMaquinaria,
   deactivate,
   activate,
-} from "../../../services/RegistroDataRepository/maquinariaService";
+} from "../../../services/microServices/maquinariaService";
 
-import { getAllMarcasActive } from "../../../services/RegistroDataRepository/marcaService";
+import { getAllMarcasActive } from "../../../services/microServices/marcaService";
 
 export default {
   name: "MaquinariaInfo",

@@ -3,7 +3,7 @@
   <div v-if="isOnHomePage" class="hero-image">
     <img src="src/assets/logoPromcoser.png" alt="Imagen de empresa" />
   </div>
-   <!-- Carrusel de imágenes -->
+  <!-- Carrusel de imágenes -->
   <div v-if="isOnHomePage" class="carousel-container">
     <div class="carousel">
       <img src="src/assets/maquinaria.jpg" alt="Imagen 1" />
@@ -36,12 +36,20 @@
         }"
       >
         <q-card-section>
-          <div class="text-h6" style="text-align: center; font-weight: bold; color: #ffffff;">
+          <div
+            class="text-h6"
+            style="text-align: center; font-weight: bold; color: #ffffff"
+          >
             Clientes Activos
           </div>
           <div
             class="q-mt-md"
-            style="text-align: center; font-size: 24px; font-weight: 600; color: #ffffff;"
+            style="
+              text-align: center;
+              font-size: 24px;
+              font-weight: 600;
+              color: #ffffff;
+            "
           >
             {{ clientCount }}
           </div>
@@ -59,12 +67,20 @@
         }"
       >
         <q-card-section>
-          <div class="text-h6" style="text-align: center; font-weight: bold; color: #ffffff;">
+          <div
+            class="text-h6"
+            style="text-align: center; font-weight: bold; color: #ffffff"
+          >
             Clientes Inactivos
           </div>
           <div
             class="q-mt-md"
-            style="text-align: center; font-size: 24px; font-weight: 600; color: #ffffff;"
+            style="
+              text-align: center;
+              font-size: 24px;
+              font-weight: 600;
+              color: #ffffff;
+            "
           >
             {{ inactiveClientCount }}
           </div>
@@ -82,12 +98,20 @@
         }"
       >
         <q-card-section>
-          <div class="text-h6" style="text-align: center; font-weight: bold; color: #ffffff;">
+          <div
+            class="text-h6"
+            style="text-align: center; font-weight: bold; color: #ffffff"
+          >
             Maquinaria Activa
           </div>
           <div
             class="q-mt-md"
-            style="text-align: center; font-size: 24px; font-weight: 600; color: #ffffff;"
+            style="
+              text-align: center;
+              font-size: 24px;
+              font-weight: 600;
+              color: #ffffff;
+            "
           >
             {{ machineryActiveCount }}
           </div>
@@ -105,12 +129,20 @@
         }"
       >
         <q-card-section>
-          <div class="text-h6" style="text-align: center; font-weight: bold; color: #ffffff;">
+          <div
+            class="text-h6"
+            style="text-align: center; font-weight: bold; color: #ffffff"
+          >
             Maquinaria Inactiva
           </div>
           <div
             class="q-mt-md"
-            style="text-align: center; font-size: 24px; font-weight: 600; color: #ffffff;"
+            style="
+              text-align: center;
+              font-size: 24px;
+              font-weight: 600;
+              color: #ffffff;
+            "
           >
             {{ machineryInactiveCount }}
           </div>
@@ -128,12 +160,20 @@
         }"
       >
         <q-card-section>
-          <div class="text-h6" style="text-align: center; font-weight: bold; color: #ffffff;">
+          <div
+            class="text-h6"
+            style="text-align: center; font-weight: bold; color: #ffffff"
+          >
             Personal Activo
           </div>
           <div
             class="q-mt-md"
-            style="text-align: center; font-size: 24px; font-weight: 600; color: #ffffff;"
+            style="
+              text-align: center;
+              font-size: 24px;
+              font-weight: 600;
+              color: #ffffff;
+            "
           >
             {{ personnelActiveCount }}
           </div>
@@ -151,12 +191,20 @@
         }"
       >
         <q-card-section>
-          <div class="text-h6" style="text-align: center; font-weight: bold; color: #ffffff;">
+          <div
+            class="text-h6"
+            style="text-align: center; font-weight: bold; color: #ffffff"
+          >
             Personal Inactivo
           </div>
           <div
             class="q-mt-md"
-            style="text-align: center; font-size: 24px; font-weight: 600; color: #ffffff;"
+            style="
+              text-align: center;
+              font-size: 24px;
+              font-weight: 600;
+              color: #ffffff;
+            "
           >
             {{ personnelInactiveCount }}
           </div>
@@ -179,24 +227,24 @@
               margin: '20px auto',
               backgroundColor: '#3d8351',
               border: '2px solid #3d8351',
-              borderRadius: '50%', /* Esto hace que sea redondo */
+              borderRadius: '50%' /* Esto hace que sea redondo */,
             }"
           >
-          <q-card class="q-mb-md card-redonda">
-            <q-card-section>
-              <div
-                class="text-h6"
-                style="text-align: center; font-weight: bold"
-              >
-                Calidad
-              </div>
-              <div style="text-align: center; font-size: 16px">
-                Brindar siempre la mejor calidad a nuestros clientes es nuestra
-                prioridad.
-              </div>
-            </q-card-section>
+            <q-card class="q-mb-md card-redonda">
+              <q-card-section>
+                <div
+                  class="text-h6"
+                  style="text-align: center; font-weight: bold"
+                >
+                  Calidad
+                </div>
+                <div style="text-align: center; font-size: 16px">
+                  Brindar siempre la mejor calidad a nuestros clientes es
+                  nuestra prioridad.
+                </div>
+              </q-card-section>
+            </q-card>
           </q-card>
-        </q-card>
           <q-card
             class="q-mb-md"
             :style="{
@@ -207,21 +255,21 @@
               borderRadius: '50%',
             }"
           >
-          <q-card class="q-mb-md card-redonda">
-            <q-card-section>
-              <div
-                class="text-h6"
-                style="text-align: center; font-weight: bold"
-              >
-                Compromiso
-              </div>
-              <div style="text-align: center; font-size: 16px">
-                Nos comprometemos a cumplir con los plazos y requisitos
-                acordados.
-              </div>
-            </q-card-section>
+            <q-card class="q-mb-md card-redonda">
+              <q-card-section>
+                <div
+                  class="text-h6"
+                  style="text-align: center; font-weight: bold"
+                >
+                  Compromiso
+                </div>
+                <div style="text-align: center; font-size: 16px">
+                  Nos comprometemos a cumplir con los plazos y requisitos
+                  acordados.
+                </div>
+              </q-card-section>
+            </q-card>
           </q-card>
-        </q-card>
           <q-card
             class="q-mb-md"
             :style="{
@@ -232,21 +280,21 @@
               borderRadius: '50%',
             }"
           >
-          <q-card class="q-mb-md card-redonda">
-            <q-card-section>
-              <div
-                class="text-h6"
-                style="text-align: center; font-weight: bold"
-              >
-                Liderazgo
-              </div>
-              <div style="text-align: center; font-size: 16px">
-                Lideramos el mercado peruano en la ejecución de obras de
-                ingeniería
-              </div>
-            </q-card-section>
+            <q-card class="q-mb-md card-redonda">
+              <q-card-section>
+                <div
+                  class="text-h6"
+                  style="text-align: center; font-weight: bold"
+                >
+                  Liderazgo
+                </div>
+                <div style="text-align: center; font-size: 16px">
+                  Lideramos el mercado peruano en la ejecución de obras de
+                  ingeniería
+                </div>
+              </q-card-section>
+            </q-card>
           </q-card>
-        </q-card>
         </q-col>
 
         <!-- Columna para los correos de los contactos de la empresa -->
@@ -261,21 +309,21 @@
               borderRadius: '50%',
             }"
           >
-          <q-card class="q-mb-md card-redonda">
-            <q-card-section>
-              <div
-                class="text-h6"
-                style="text-align: center; font-weight: bold"
-              >
-                Trabajo en equipo
-              </div>
-              <div style="text-align: center; font-size: 16px">
-                Fomentamos la colaboración, aprovechando el talento de cada miembro
-                para alcanzar objetivos comunes.
-              </div>
-            </q-card-section>
+            <q-card class="q-mb-md card-redonda">
+              <q-card-section>
+                <div
+                  class="text-h6"
+                  style="text-align: center; font-weight: bold"
+                >
+                  Trabajo en equipo
+                </div>
+                <div style="text-align: center; font-size: 16px">
+                  Fomentamos la colaboración, aprovechando el talento de cada
+                  miembro para alcanzar objetivos comunes.
+                </div>
+              </q-card-section>
+            </q-card>
           </q-card>
-        </q-card>
 
           <q-card
             class="q-mb-md"
@@ -287,21 +335,21 @@
               borderRadius: '50%',
             }"
           >
-          <q-card class="q-mb-md card-redonda">
-            <q-card-section>
-              <div
-                class="text-h6"
-                style="text-align: center; font-weight: bold"
-              >
-                Innovación
-              </div>
-              <div style="text-align: center; font-size: 16px">
-                Promovemos un ambiente donde la creatividad y las nuevas ideas
-                son siempre bienvenidas.
-              </div>
-            </q-card-section>
+            <q-card class="q-mb-md card-redonda">
+              <q-card-section>
+                <div
+                  class="text-h6"
+                  style="text-align: center; font-weight: bold"
+                >
+                  Innovación
+                </div>
+                <div style="text-align: center; font-size: 16px">
+                  Promovemos un ambiente donde la creatividad y las nuevas ideas
+                  son siempre bienvenidas.
+                </div>
+              </q-card-section>
+            </q-card>
           </q-card>
-        </q-card>
         </q-col>
       </q-row>
     </div>
@@ -324,8 +372,13 @@
             }"
           >
             <q-card-section>
-               <!-- Ícono centrado -->
-            <q-icon name="build" size="40px" color="primary" style="display: block; margin: 0 auto;" />
+              <!-- Ícono centrado -->
+              <q-icon
+                name="build"
+                size="40px"
+                color="primary"
+                style="display: block; margin: 0 auto"
+              />
               <div
                 class="text-h6"
                 style="text-align: center; font-weight: bold"
@@ -348,7 +401,12 @@
             }"
           >
             <q-card-section>
-              <q-icon name="business" size="40px" color="primary" style="display: block; margin: 0 auto;" />
+              <q-icon
+                name="business"
+                size="40px"
+                color="primary"
+                style="display: block; margin: 0 auto"
+              />
               <div
                 class="text-h6"
                 style="text-align: center; font-weight: bold"
@@ -371,7 +429,12 @@
             }"
           >
             <q-card-section>
-              <q-icon name="inventory" size="40px" color="primary" style="display: block; margin: 0 auto;" />
+              <q-icon
+                name="inventory"
+                size="40px"
+                color="primary"
+                style="display: block; margin: 0 auto"
+              />
               <div
                 class="text-h6"
                 style="text-align: center; font-weight: bold"
@@ -395,7 +458,12 @@
             }"
           >
             <q-card-section>
-              <q-icon name="contact_mail" size="40px" color="primary" style="display: block; margin: 0 auto;" />
+              <q-icon
+                name="contact_mail"
+                size="40px"
+                color="primary"
+                style="display: block; margin: 0 auto"
+              />
               <div
                 class="text-h6"
                 style="text-align: center; font-weight: bold"
@@ -418,7 +486,12 @@
             }"
           >
             <q-card-section>
-              <q-icon name="support_agent" size="40px" color="primary" style="display: block; margin: 0 auto;" />
+              <q-icon
+                name="support_agent"
+                size="40px"
+                color="primary"
+                style="display: block; margin: 0 auto"
+              />
               <div
                 class="text-h6"
                 style="text-align: center; font-weight: bold"
@@ -439,8 +512,6 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { getInfoGeneralResumen } from "src/services/RegistroDataRepository/infoGeneral.js"; // Importamos la función del servicio
-import EssentialLink from "src/components/MenuSidebar.vue";
 
 // Estado para almacenar la cantidad de clientes activos, inactivos, maquinaria y personal
 const clientCount = ref(0);
@@ -515,7 +586,7 @@ const isOnHomePageVisible = ref(true); // Controla la visibilidad del carrusel
 
 // Método para mover el carrusel
 function moveSlide(step) {
-  const slides = document.querySelectorAll('.carousel img');
+  const slides = document.querySelectorAll(".carousel img");
   const totalSlides = slides.length;
 
   currentIndex.value += step;
@@ -526,7 +597,7 @@ function moveSlide(step) {
     currentIndex.value = 0; // Si llega al último slide, volver al primero
   }
 
-  const carousel = document.querySelector('.carousel');
+  const carousel = document.querySelector(".carousel");
   const offset = -currentIndex.value * 100; // Mueve el carrusel al siguiente slide
 
   carousel.style.transform = `translateX(${offset}%)`;

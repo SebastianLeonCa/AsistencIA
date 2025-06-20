@@ -132,7 +132,7 @@ import {
   createCliente,
   deactivate,
   activate,
-} from "../../../services/RegistroDataRepository/clienteService";
+} from "../../../services/microServices/clienteService";
 
 export default {
   name: "ClienteInfo",

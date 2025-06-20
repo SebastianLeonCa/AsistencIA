@@ -51,7 +51,7 @@
 
 <script>
 import { ref } from "vue";
-import { changePassword } from "../../../services/RegistroDataRepository/personalService";
+import { changePassword } from "../../../services/microServices/personalService";
 
 export default {
   name: "ChangePassword",

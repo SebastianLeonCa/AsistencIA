@@ -2,7 +2,7 @@
   <div>
     <!-- Header -->
     <div class="header">
-      <img src="../../assets/logo.jpg" alt="Logo ESAN" class="logo-img" />
+      <img src="../assets/logo.jpg" alt="Logo ESAN" class="logo-img" />
       <button
         class="btn btn-logout"
         data-bs-toggle="modal"
@@ -25,14 +25,19 @@
               </h5>
             </div>
             <div class="card-body">
-              <label for="cursoSelect" class="form-label">
-                <i class="bi bi-mortarboard-fill me-1"></i>Seleccionar Curso
-              </label>
-              <select class="form-select" v-model="curso">
-                <option disabled value="">Selecciona un curso</option>
-                <option value="S01">S01 - Project Management</option>
-                <option value="S02">S02 - Álgebra Lineal</option>
-                <option value="S03">S03 - Tesis 1</option>
+              <label class="form-label"
+                ><i class="bi bi-mortarboard-fill me-1"></i>Seleccionar
+                Curso</label
+              >
+              <select class="form-select" v-model="seccionSeleccionada">
+                <option disabled value="">Selecciona una sección</option>
+                <option
+                  v-for="seccion in secciones"
+                  :key="seccion.seccion"
+                  :value="seccion.seccion"
+                >
+                  {{ seccion.nombre }}
+                </option>
               </select>
             </div>
           </div>
@@ -45,20 +50,17 @@
               </h5>
             </div>
             <div class="card-body">
-              <label for="fechaAsistencia" class="form-label"
-                >Fecha de asistencia</label
-              >
-              <div class="input-group">
-                <span class="input-group-text"
-                  ><i class="bi bi-calendar3"></i
-                ></span>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fechaAsistencia"
-                  v-model="fecha"
-                />
-              </div>
+              <label class="form-label">Fecha de asistencia</label>
+              <select class="form-select" v-model="sesionSeleccionada">
+                <option disabled value="">Selecciona una sesión</option>
+                <option
+                  v-for="sesion in sesiones"
+                  :key="sesion.idSesion"
+                  :value="sesion.idSesion"
+                >
+                  {{ sesion.fecha + "  |  " + sesion.horaInicio }}
+                </option>
+              </select>
             </div>
           </div>
 
@@ -90,9 +92,15 @@
                   for="fotoClase"
                   class="btn w-100 mt-2"
                   :style="{
-                    backgroundColor: curso && fecha ? '#b40000' : 'grey',
+                    backgroundColor:
+                      seccionSeleccionada && sesionSeleccionada
+                        ? '#b40000'
+                        : 'grey',
                     color: 'white',
-                    pointerEvents: curso && fecha ? 'auto' : 'none',
+                    pointerEvents:
+                      seccionSeleccionada && sesionSeleccionada
+                        ? 'auto'
+                        : 'none',
                   }"
                 >
                   <i class="bi bi-upload me-2"></i>Seleccionar Foto
@@ -108,7 +116,6 @@
             <div class="card-header text-white bg-rojo">
               <h5 class="mb-0">
                 <i class="bi bi-people-fill me-2"></i>Lista de Asistencia
-                <span class="fw-light">- {{ curso }}</span>
               </h5>
             </div>
             <div class="card-body overflow-auto" style="max-height: 560px">
@@ -119,7 +126,7 @@
               >
                 <div class="d-flex align-items-center">
                   <img
-                    src="../../assets/placeholder.png"
+                    src="../assets/placeholder.png"
                     class="rounded-circle me-3 avatar-img"
                     alt="Foto estudiante"
                   />
@@ -184,27 +191,40 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { ref, onMounted, watch } from "vue";
+import { getSecciones } from "../services/microServices/docenteService";
+import { getSesiones } from "../services/microServices/seccionService";
 
-const userData = localStorage.getItem("userData");
+const storedUserData = localStorage.getItem("userData");
+const idDocente = storedUserData
+  ? JSON.parse(storedUserData).idUsuario.toString()
+  : "";
 
-const leftDrawerOpen = ref(false);
-const router = useRouter();
+const seccionSeleccionada = ref("");
+const sesionSeleccionada = ref("");
+const secciones = ref([]);
+const sesiones = ref([]);
+const estudiantes = ref([]); // ← Reemplazar con fetch real si lo necesitas
 
-const curso = ref("");
-const fecha = ref("");
-const estudiantes = [
-  "Elena Fernández",
-  "Luis Pérez",
-  "María Gómez",
-  "Carlos Sánchez",
-  "Lucía Torres",
-  "Pedro Ramírez",
-  "Andrea Martínez",
-  "Jorge Díaz",
-  "Camila Ríos",
-];
+onMounted(async () => {
+  try {
+    const data = await getSecciones(idDocente);
+    secciones.value = data;
+  } catch (error) {
+    console.error("❌ Error cargando secciones:", error);
+  }
+});
+
+watch(seccionSeleccionada, async (newCurso) => {
+  sesionSeleccionada.value = "";
+  if (!newCurso) return;
+  try {
+    const data = await getSesiones(newCurso);
+    sesiones.value = data;
+  } catch (error) {
+    console.error("❌ Error al obtener sesiones:", error);
+  }
+});
 
 const handleFileChange = (event) => {
   const file = event.target.files[0];
@@ -213,13 +233,9 @@ const handleFileChange = (event) => {
   const reader = new FileReader();
   reader.onload = (e) => {
     const base64 = e.target.result.split(",")[1];
-    console.log("📷 Imagen Base64:", base64);
-
     fetch("http://localhost:5000/subir-imagen", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ imagen: base64 }),
     })
       .then((res) => res.json())
@@ -229,18 +245,6 @@ const handleFileChange = (event) => {
 
   reader.readAsDataURL(file);
 };
-
-function goToSettings() {
-  router.push({ path: "/homeAdmin/settings" });
-}
-
-function logout() {
-  // Lógica adicional, como limpiar datos de sesión
-  router.push("/"); // Redirige a la página de login
-}
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
 </script>
 
 <style>
@@ -251,6 +255,7 @@ function toggleLeftDrawer() {
   --color-mostaza: #d4a017;
 }
 </style>
+
 <style scoped>
 .bg-rojo {
   background-color: var(--color-rojo) !important;
@@ -278,11 +283,6 @@ function toggleLeftDrawer() {
 
 .btn-logout:hover {
   background-color: var(--color-rojo-hover);
-  color: white;
-}
-
-.text-mostaza {
-  color: var(--color-mostaza);
 }
 
 .border-dashed {
@@ -290,8 +290,7 @@ function toggleLeftDrawer() {
 }
 
 .btn-spacing > button {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 0 5px;
 }
 
 .avatar-img {

@@ -147,7 +147,7 @@ export default {
     };
 
     const navigateToHome = () => {
-      router.push("/homeAdmin");
+      router.push("/home");
     };
 
     return {
