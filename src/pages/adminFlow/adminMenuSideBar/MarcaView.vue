@@ -90,7 +90,7 @@ import {
   createMarca,
   deactivate,
   activate,
-} from "../../../services/RegistroDataRepository/marcaService";
+} from "../../../services/microServices/marcaService";
 
 export default {
   name: "MarcaInfo",

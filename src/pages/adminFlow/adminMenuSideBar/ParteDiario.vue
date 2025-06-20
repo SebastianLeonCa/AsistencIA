@@ -290,17 +290,17 @@ import {
   createParteDiario,
   deactivate,
   activate,
-} from "../../../services/RegistroDataRepository/parteDiarioService";
+} from "../../../services/microServices/parteDiarioService";
 
-import { getAllPersonalsActive } from "../../../services/RegistroDataRepository/personalService";
-import { getAllMaquinariasActive } from "../../../services/RegistroDataRepository/maquinariaService";
-import { getAllClientesActive } from "../../../services/RegistroDataRepository/clienteService";
-import { getAllLugarsActive } from "../../../services/RegistroDataRepository/lugarTrabajoService";
+import { getAllPersonalsActive } from "../../../services/microServices/personalService";
+import { getAllMaquinariasActive } from "../../../services/microServices/maquinariaService";
+import { getAllClientesActive } from "../../../services/microServices/clienteService";
+import { getAllLugarsActive } from "../../../services/microServices/lugarTrabajoService";
 import {
   getAllDetalleParteDiariosActive,
   deactivateDetail,
   createDetalleParteDiario,
-} from "../../../services/RegistroDataRepository/detalleParteDiarioService";
+} from "../../../services/microServices/detalleParteDiarioService";
 
 export default {
   name: "ParteDiarioInfo",

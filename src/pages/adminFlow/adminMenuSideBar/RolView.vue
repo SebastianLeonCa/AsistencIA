@@ -90,7 +90,7 @@ import {
   createRol,
   deactivate,
   activate,
-} from "../../../services/RegistroDataRepository/rolService";
+} from "../../../services/microServices/docenteService";
 
 export default {
   name: "RolInfo",

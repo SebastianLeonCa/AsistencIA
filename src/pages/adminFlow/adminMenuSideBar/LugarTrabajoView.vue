@@ -89,7 +89,7 @@ import {
   createLugar,
   deactivate,
   activate,
-} from "../../../services/RegistroDataRepository/lugarTrabajoService";
+} from "../../../services/microServices/lugarTrabajoService";
 
 export default {
   name: "LugarInfo",

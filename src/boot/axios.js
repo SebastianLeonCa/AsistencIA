@@ -2,7 +2,7 @@ import { boot } from "quasar/wrappers";
 import axios from "axios";
 
 const baseUrl = " http://localhost:5298";
-//const baseUrl = " https://534d-38-25-122-10.ngrok-free.app";
+//const baseUrl = "https://410a-38-25-122-10.ngrok-free.app";
 
 const apiClient = axios.create({
   baseURL: baseUrl,

@@ -160,9 +160,9 @@ import {
   createPersonal,
   deactivate,
   activate,
-} from "../../../services/RegistroDataRepository/personalService";
+} from "../../../services/microServices/personalService";
 
-import { getAllRolsActive } from "../../../services/RegistroDataRepository/rolService";
+import { getAllRolsActive } from "../../../services/microServices/docenteService";
 
 export default {
   name: "PersonalInfo",
