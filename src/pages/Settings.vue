@@ -1,9 +1,12 @@
 <template>
   <div class="page-container">
     <div class="change-password-container">
+      <button class="close-button" @click="goBack" aria-label="Cerrar">
+        ×
+      </button>
       <h1 class="title">Cambio de Contraseña</h1>
       <div class="user-info">
-        <p class="username">Usuario: {{ username }}</p>
+        <p class="username"></p>
       </div>
       <form @submit.prevent="handleChangePassword" class="form">
         <div class="form-group">
@@ -51,14 +54,18 @@
 
 <script>
 import { ref } from "vue";
-import { changePassword } from "../../../services/microServices/personalService";
+import { useRouter } from "vue-router";
+import { changePwd } from "../services/logInService";
 
 export default {
   name: "ChangePassword",
   setup() {
+    const router = useRouter();
+
     const storedUserData = localStorage.getItem("userData");
-    const userData = ref(storedUserData ? JSON.parse(storedUserData) : null);
-    const username = ref(userData.value?.usuario);
+    const idUsuario = storedUserData
+      ? JSON.parse(storedUserData).idUsuario.toString()
+      : "";
 
     const currentPassword = ref("");
     const newPassword = ref("");
@@ -67,46 +74,52 @@ export default {
     const successMessage = ref("");
 
     const handleChangePassword = async () => {
+      errorMessage.value = "";
+      successMessage.value = "";
+
       if (
         !currentPassword.value ||
         !newPassword.value ||
         !confirmPassword.value
       ) {
-        errorMessage.value = "Por favor, completa todos los campos.";
-        successMessage.value = "";
+        errorMessage.value = "Por favor completa todos los campos.";
         return;
       }
+
       if (newPassword.value !== confirmPassword.value) {
-        errorMessage.value = "Las contraseñas no coinciden.";
-        successMessage.value = "";
+        errorMessage.value = "Las nuevas contraseñas no coinciden.";
         return;
       }
+
       try {
-        const response = await changePassword({
-          Usuario: username.value,
-          Contrasena: currentPassword.value,
-          NewContrasena: newPassword.value,
+        await changePwd({
+          usuario: idUsuario,
+          contrasena: currentPassword.value,
+          newContrasena: newPassword.value,
         });
-        successMessage.value = response || "Contraseña cambiada exitosamente.";
-        errorMessage.value = "";
+        successMessage.value = "✅ Contraseña cambiada exitosamente.";
         currentPassword.value = "";
         newPassword.value = "";
         confirmPassword.value = "";
       } catch (error) {
         errorMessage.value =
-          error.response?.data?.message || "Error al cambiar la contraseña.";
-        successMessage.value = "";
+          "❌ Error al cambiar la contraseña. Verifica los datos ingresados.";
       }
     };
 
+    const goBack = () => {
+      router.push("/home");
+    };
+
     return {
-      username,
+      idUsuario,
       currentPassword,
       newPassword,
       confirmPassword,
       errorMessage,
       successMessage,
       handleChangePassword,
+      goBack,
     };
   },
 };
@@ -118,7 +131,10 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #f0f0f0, #d9d9d9);
+  background-image: url("../assets/esan_frontis.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .change-password-container {
@@ -126,7 +142,7 @@ export default {
   backdrop-filter: blur(10px);
   border-width: 15px; /* Grosor del borde */
   border-style: solid;
-  border-color: #b97c7c;
+  border-color: #d5d5d5;
   border-radius: 15px;
   padding: 30px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -179,7 +195,7 @@ export default {
   width: 100%;
   padding: 12px;
   border-radius: 8px;
-  background-color: #da5656;
+  background-color: #b40000;
   color: white;
   font-size: 16px;
   border: none;
@@ -199,5 +215,20 @@ export default {
 .success-message {
   color: green;
   margin-top: 15px;
+}
+.close-button {
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.close-button:hover {
+  color: #b40000;
 }
 </style>
