@@ -22,11 +22,7 @@
         <div class="brand">
           <img src="../assets/logo.jpg" alt="Logo ESAN" class="logo-img" />
         </div>
-        <button
-          class="btn btn-login"
-          data-bs-toggle="modal"
-          data-bs-target="#loginModal"
-        >
+        <button class="btn btn-login" @click="showModal = true">
           Iniciar sesión
         </button>
       </div>
@@ -57,48 +53,36 @@
     </div>
 
     <!-- Modal de Login -->
-    <div
-      class="modal fade"
-      id="loginModal"
-      tabindex="-1"
-      aria-labelledby="loginModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
+    <!-- Modal controlado por Vue -->
+    <div v-if="showModal" class="custom-modal">
+      <div class="custom-modal-content">
+        <h5>Iniciar sesión</h5>
+        <form @submit.prevent="handleLogIn">
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              v-model="username"
+              placeholder="Usuario"
+              required
+            />
           </div>
-          <div class="modal-body">
-            <form @submit.prevent="handleLogIn">
-              <div class="mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="username"
-                  placeholder="Usuario"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  v-model="password"
-                  placeholder="Contraseña"
-                  required
-                />
-              </div>
-              <button type="submit" class="btn btn-login w-100">Entrar</button>
-            </form>
+          <div class="mb-3">
+            <input
+              type="password"
+              class="form-control"
+              v-model="password"
+              placeholder="Contraseña"
+              required
+            />
           </div>
-        </div>
+          <div class="d-flex justify-content-end gap-2">
+            <button class="btn btn-secondary" @click="showModal = false">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-login">Entrar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -115,15 +99,10 @@ export default {
   setup() {
     const username = ref("");
     const password = ref("");
-    const showPassword = ref(false); // Estado para controlar la visibilidad de la contraseña
-    const router = useRouter(); // Inicializamos el enrutador
+    const showModal = ref(false);
+    const router = useRouter();
 
     const handleLogIn = async () => {
-      if (!username.value.trim() || !password.value.trim()) {
-        alert("Usuario y contraseña son requeridos.");
-        return;
-      }
-
       const datos = {
         usuario: username.value.trim().toLowerCase(),
         contrasena: password.value.trim().toLowerCase(),
@@ -131,32 +110,23 @@ export default {
 
       try {
         const response = await LogIn(datos);
-        localStorage.setItem("userData", JSON.stringify(response));
         if (response) {
-          navigateToHome();
+          localStorage.setItem("userData", JSON.stringify(response));
+          showModal.value = false;
+          router.push("/home");
         } else {
           alert("Usuario o contraseña incorrectos.");
         }
       } catch (error) {
-        alert("Hubo un problema con el login.");
+        alert("Error en el login.");
       }
-    };
-
-    const togglePasswordVisibility = () => {
-      showPassword.value = !showPassword.value;
-    };
-
-    const navigateToHome = () => {
-      router.push("/home");
     };
 
     return {
       username,
       password,
-      showPassword,
+      showModal,
       handleLogIn,
-      togglePasswordVisibility,
-      navigateToHome,
     };
   },
 };
@@ -243,5 +213,26 @@ export default {
 
 .object-fit-cover {
   object-fit: cover;
+}
+
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* efecto oscuro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.custom-modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
 }
 </style>
