@@ -131,17 +131,33 @@
                     alt="Foto estudiante"
                   />
                   <div>
-                    <strong>{{ estudiante }}</strong>
+                    <strong>{{ estudiante.nombreCompleto }}</strong>
                   </div>
                 </div>
                 <div class="btn-group btn-spacing" role="group">
-                  <button class="btn btn-success">
+                  <button
+                    class="btn"
+                    :class="{
+                      'btn-success': estudiante.estado === 'presente',
+                      'btn-outline-success': estudiante.estado !== 'presente',
+                    }"
+                    @click="
+                      cambiarEstadoAsistencia(estudiante.idUsuario, 'presente')
+                    "
+                  >
                     <i class="bi bi-check-lg"></i>
                   </button>
-                  <button class="btn btn-outline-warning">
-                    <i class="bi bi-clock-fill"></i>
-                  </button>
-                  <button class="btn btn-outline-danger">
+
+                  <button
+                    class="btn"
+                    :class="{
+                      'btn-danger': estudiante.estado === 'ausente',
+                      'btn-outline-danger': estudiante.estado !== 'ausente',
+                    }"
+                    @click="
+                      cambiarEstadoAsistencia(estudiante.idUsuario, 'ausente')
+                    "
+                  >
                     <i class="bi bi-x-lg"></i>
                   </button>
                 </div>
@@ -194,6 +210,11 @@
 import { ref, onMounted, watch } from "vue";
 import { getSecciones } from "../services/microServices/docenteService";
 import { getSesiones } from "../services/microServices/seccionService";
+import { getAlumnos } from "../services/microServices/sesionService";
+import {
+  setAsistencia,
+  updateAsistencia,
+} from "../services/microServices/asistenciaService";
 
 const storedUserData = localStorage.getItem("userData");
 const idDocente = storedUserData
@@ -204,7 +225,7 @@ const seccionSeleccionada = ref("");
 const sesionSeleccionada = ref("");
 const secciones = ref([]);
 const sesiones = ref([]);
-const estudiantes = ref([]); // ← Reemplazar con fetch real si lo necesitas
+const estudiantes = ref([]);
 
 onMounted(async () => {
   try {
@@ -217,6 +238,7 @@ onMounted(async () => {
 
 watch(seccionSeleccionada, async (newCurso) => {
   sesionSeleccionada.value = "";
+  estudiantes.value = [];
   if (!newCurso) return;
   try {
     const data = await getSesiones(newCurso);
@@ -225,6 +247,35 @@ watch(seccionSeleccionada, async (newCurso) => {
     console.error("❌ Error al obtener sesiones:", error);
   }
 });
+
+watch(sesionSeleccionada, async (newSesion) => {
+  if (!newSesion) return;
+
+  try {
+    const data = await getAlumnos(newSesion);
+    estudiantes.value = data;
+  } catch (error) {
+    console.error("❌ Error al obtener alumnos:", error);
+  }
+});
+
+const cambiarEstadoAsistencia = async (idUsuario, nuevoEstado) => {
+  const idSesion = sesionSeleccionada.value;
+  const estudiante = estudiantes.value.find((e) => e.idUsuario === idUsuario);
+  console.log(nuevoEstado);
+  console.log(idSesion);
+  console.log(idUsuario);
+  try {
+    if (estudiante.estado == null) {
+      await setAsistencia({ idSesion, idUsuario, nuevoEstado });
+    } else {
+      await updateAsistencia({ idSesion, idUsuario, nuevoEstado });
+    }
+    estudiante.estado = nuevoEstado;
+  } catch (error) {
+    console.error("❌ Error al actualizar asistencia:", error);
+  }
+};
 
 const handleFileChange = (event) => {
   const file = event.target.files[0];
