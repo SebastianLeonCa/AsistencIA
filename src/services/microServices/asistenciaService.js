@@ -1,11 +1,13 @@
 import { apiClient } from "../../boot/axios";
 
-export const setAsistencia = async ({ idSesion, idUsuario, nuevoEstado }) => {
+export const setAsistencia = async ({ idSesion, idUsuario, estado }) => {
+  console.log("POST");
+  console.log({ idSesion, idUsuario, estado });
   try {
     const response = await apiClient.post(`/api/Asistencias/`, {
       idSesion,
       idUsuario,
-      nuevoEstado,
+      estado,
     });
     return response.data;
   } catch (error) {
@@ -19,6 +21,7 @@ export const updateAsistencia = async ({
   idUsuario,
   nuevoEstado,
 }) => {
+  console.log({ idSesion, idUsuario, nuevoEstado });
   try {
     const response = await apiClient.put(`/api/Asistencias/`, {
       idSesion,
