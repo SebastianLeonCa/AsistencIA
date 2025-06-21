@@ -262,18 +262,15 @@ watch(sesionSeleccionada, async (newSesion) => {
 const cambiarEstadoAsistencia = async (idUsuario, nuevoEstado) => {
   const idSesion = sesionSeleccionada.value;
   const estudiante = estudiantes.value.find((e) => e.idUsuario === idUsuario);
-  console.log(nuevoEstado);
-  console.log(idSesion);
-  console.log(idUsuario);
   try {
     if (estudiante.estado == null) {
-      await setAsistencia({ idSesion, idUsuario, nuevoEstado });
+      await setAsistencia({ idSesion, idUsuario, estado: nuevoEstado });
     } else {
       await updateAsistencia({ idSesion, idUsuario, nuevoEstado });
     }
     estudiante.estado = nuevoEstado;
   } catch (error) {
-    console.error("❌ Error al actualizar asistencia:", error);
+    console.error("❌ Error al modificar asistencia:", error);
   }
 };
 
