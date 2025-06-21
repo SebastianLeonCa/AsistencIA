@@ -1,8 +1,8 @@
 {
-  "name": "promcoserweb",
+  "name": "asistenciaweb",
   "version": "0.0.1",
-  "description": "Projecto web Promcoser",
-  "productName": "PromcoserWeb",
+  "description": "Projecto web AsistencIA",
+  "productName": "AsistencIA",
   "author": "Joawhi <joaquin11webmovil@gmail.com>",
   "private": true,
   "scripts": {
