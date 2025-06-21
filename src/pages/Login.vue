@@ -52,11 +52,10 @@
       </div>
     </div>
 
-    <!-- Modal de Login -->
-    <!-- Modal controlado por Vue -->
+    <!-- MODAL DE INICIO DE SESIÓN -->
     <div v-if="showModal" class="custom-modal">
       <div class="custom-modal-content">
-        <h5>Iniciar sesión</h5>
+        <h5 class="mb-4 text-center">Iniciar sesión</h5>
         <form @submit.prevent="handleLogIn">
           <div class="mb-3">
             <input
@@ -67,22 +66,62 @@
               required
             />
           </div>
-          <div class="mb-3">
+          <div class="mb-3 input-group">
             <input
-              type="password"
+              :type="showPassword ? 'text' : 'password'"
               class="form-control"
               v-model="password"
               placeholder="Contraseña"
               required
             />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="togglePasswordVisibility"
+            >
+              <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
           </div>
-          <div class="d-flex justify-content-end gap-2">
-            <button class="btn btn-secondary" @click="showModal = false">
+
+          <div class="d-flex flex-column gap-2 mt-4">
+            <button type="submit" class="btn btn-login w-100">Entrar</button>
+            <button
+              type="button"
+              class="btn btn-secondary w-100"
+              @click="showModal = false"
+            >
               Cancelar
             </button>
-            <button type="submit" class="btn btn-login">Entrar</button>
+          </div>
+
+          <div class="text-end mt-2">
+            <a
+              href="#"
+              class="text-decoration-none small text-muted"
+              @click.prevent="abrirRecuperarContrasena"
+            >
+              ¿Te olvidaste tu contraseña?
+            </a>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- MODAL INFORMATIVO -->
+    <div v-if="showModalRecuperar" class="custom-modal">
+      <div class="custom-modal-content text-center">
+        <h5 class="mb-3">¿Olvidaste tu contraseña?</h5>
+        <p>
+          Para restablecer tu contraseña, comunícate con el área de soporte
+          académico al <strong>+51 987 654 321</strong>. Validarán tu identidad
+          y te guiarán en el proceso de recuperación.
+        </p>
+        <button
+          class="btn btn-login w-100 mt-4"
+          @click="cerrarRecuperarContrasena"
+        >
+          Volver
+        </button>
       </div>
     </div>
   </div>
@@ -99,8 +138,24 @@ export default {
   setup() {
     const username = ref("");
     const password = ref("");
-    const showModal = ref(false);
     const router = useRouter();
+    const showModal = ref(false);
+    const showPassword = ref(false);
+    const showModalRecuperar = ref(false);
+
+    const togglePasswordVisibility = () => {
+      showPassword.value = !showPassword.value;
+    };
+
+    const abrirRecuperarContrasena = () => {
+      showModal.value = false;
+      showModalRecuperar.value = true;
+    };
+
+    const cerrarRecuperarContrasena = () => {
+      showModalRecuperar.value = false;
+      showModal.value = true;
+    };
 
     const handleLogIn = async () => {
       const datos = {
@@ -125,8 +180,14 @@ export default {
     return {
       username,
       password,
+      router,
       showModal,
+      showPassword,
+      showModalRecuperar,
       handleLogIn,
+      togglePasswordVisibility,
+      abrirRecuperarContrasena,
+      cerrarRecuperarContrasena,
     };
   },
 };
@@ -217,22 +278,54 @@ export default {
 
 .custom-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4); /* efecto oscuro */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  animation: fadeIn 0.3s ease;
 }
 
 .custom-modal-content {
-  background: white;
+  background: #fff;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 12px;
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.btn-login {
+  background-color: var(--color-rojo);
+  color: white;
+  border: none;
+}
+
+.btn-login:hover {
+  background-color: var(--color-rojo-hover);
+  color: white;
 }
 </style>
