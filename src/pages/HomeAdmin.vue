@@ -3,13 +3,19 @@
     <!-- Header -->
     <div class="header">
       <img src="../assets/logo.jpg" alt="Logo ESAN" class="logo-img" />
-      <button
-        class="btn btn-logout"
-        data-bs-toggle="modal"
-        data-bs-target="#logoutModal"
-      >
-        Cerrar sesión
-      </button>
+
+      <div class="d-flex align-items-center">
+        <button
+          class="btn btn-logout me-3"
+          data-bs-toggle="modal"
+          data-bs-target="#logoutModal"
+        >
+          Cerrar sesión
+        </button>
+        <button class="btn-config" @click="irAjustes">
+          <i class="bi bi-gear-fill"></i>
+        </button>
+      </div>
     </div>
 
     <!-- Contenido -->
@@ -207,6 +213,7 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import { ref, onMounted, watch } from "vue";
 import { getSecciones } from "../services/microServices/docenteService";
 import { getSesiones } from "../services/microServices/seccionService";
@@ -215,6 +222,8 @@ import {
   setAsistencia,
   updateAsistencia,
 } from "../services/microServices/asistenciaService";
+
+const router = useRouter();
 
 const storedUserData = localStorage.getItem("userData");
 const idDocente = storedUserData
@@ -262,9 +271,6 @@ watch(sesionSeleccionada, async (newSesion) => {
 const cambiarEstadoAsistencia = async (idUsuario, nuevoEstado) => {
   const idSesion = sesionSeleccionada.value;
   const estudiante = estudiantes.value.find((e) => e.idUsuario === idUsuario);
-  console.log(nuevoEstado);
-  console.log(idSesion);
-  console.log(idUsuario);
   try {
     if (estudiante.estado == null) {
       await setAsistencia({ idSesion, idUsuario, nuevoEstado });
@@ -275,6 +281,10 @@ const cambiarEstadoAsistencia = async (idUsuario, nuevoEstado) => {
   } catch (error) {
     console.error("❌ Error al actualizar asistencia:", error);
   }
+};
+
+const irAjustes = () => {
+  router.push("/ajustes");
 };
 
 const handleFileChange = (event) => {
@@ -354,5 +364,18 @@ const handleFileChange = (event) => {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.btn-config {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.btn-config:hover {
+  color: var(--color-rojo);
 }
 </style>

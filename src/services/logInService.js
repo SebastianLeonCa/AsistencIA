@@ -19,3 +19,18 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+export const changePwd = async ({ usuario, contrasena, newContrasena }) => {
+  console.log({ usuario, contrasena, newContrasena });
+  try {
+    const response = await authClient.post(`/api/Usuarios/ChangePassword`, {
+      usuario,
+      contrasena,
+      newContrasena,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al cambiar contraseña:", error);
+    throw error;
+  }
+};

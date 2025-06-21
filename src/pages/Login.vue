@@ -97,7 +97,7 @@
           <div class="text-end mt-2">
             <a
               href="#"
-              class="text-decoration-none small text-muted"
+              class="text-decoration-none small text-muted link-olvido"
               @click.prevent="abrirRecuperarContrasena"
             >
               ¿Te olvidaste tu contraseña?
@@ -327,5 +327,10 @@ export default {
 .btn-login:hover {
   background-color: var(--color-rojo-hover);
   color: white;
+}
+
+.link-olvido:hover {
+  color: var(--color-rojo) !important;
+  cursor: pointer;
 }
 </style>

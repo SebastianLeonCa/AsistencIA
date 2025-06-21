@@ -7,6 +7,10 @@ const routes = [
     path: "/home",
     component: () => import("src/pages/HomeAdmin.vue"),
   },
+  {
+    path: "/ajustes",
+    component: () => import("src/pages/Settings.vue"),
+  },
 
   // Always leave this as last one,
   // but you can also remove it
